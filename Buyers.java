@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 public class Buyers extends Users{
 
 	public Buyers(String username, String email, String password, String role){
