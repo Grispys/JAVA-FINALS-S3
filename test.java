@@ -18,7 +18,7 @@ public class test {
 		}
 		// testing that addproduct works 
 		try (Connection connection = DatabaseConnection.getCon()){
-			if (user.addProduct("pompus cactus", "This cactus is flamboyant and gay", 29.99, connection)){
+			if (user.addProduct(connection)){
 				System.out.println("saved");
 			}else{
 				System.err.println("fail");
