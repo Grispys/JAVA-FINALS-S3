@@ -2,7 +2,9 @@
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Admin extends Users{
 
@@ -10,8 +12,36 @@ public class Admin extends Users{
 		super(username, password, email, role);
 	}
 
-	public boolean viewUsers(Connection connect){
+	public boolean viewUsers(Connection connect)throws SQLException{
+		ArrayList<Users> userList = new ArrayList<>();
 		String query = "SELECT * from Users";
+		
+		try(PreparedStatement statement = connect.prepareStatement(query)){
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()){
+				String username = rs.getString("username");
+				String email = rs.getString("email");
+				String role = rs.getString("role");
+
+				userList.add(new Users(username,email,role) {
+
+					@Override
+					public boolean saveUser(Connection connect) throws SQLException {
+						return true;
+						// ignore this function completely. Users is abstract so when i make a list with it
+						// to display all users, save user has to be implemented. ignore it for now
+					}});
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+			return false;
+		}
+
+		System.out.println("List of all Users: ");
+		for (Users user : userList){
+			System.out.println("Username: " + user.username + ", Email: " + user.email + ", Role: " + user.role);
+		}
+		return true;
 	}
 
 	public boolean deleteUser(String username, Connection connect){
