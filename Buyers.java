@@ -32,7 +32,28 @@ public class Buyers extends Users{
 	}
 
 	public boolean searchProducts(String pName, Connection connect){
-		String query = "SELECT FROM Products WHERE pname=?";
+		String query = "SELECT * FROM Products WHERE pName=?";
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			statement.setString(1, pName);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				boolean results = false;
+				while (resultSet.next()) {
+					results = true;
+					System.out.println("Product Name: " + resultSet.getString("pName"));
+					System.out.println("Description: " + resultSet.getString("pDesc"));
+					System.out.println("Price: " + resultSet.getDouble("price"));
+				}
+				if (!results) {
+					System.out.println("No products found.");
+				}
+				
+				return results;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean productInfo(Connection connect){
