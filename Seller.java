@@ -1,6 +1,8 @@
 // contributors - matthew verge (base), joshua youden (added onto base)
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Seller extends Users {
 
@@ -8,16 +10,41 @@ public class Seller extends Users {
 		super(username, password, email, role);
 	}
 	// inserts parameters into 
-	public boolean addProduct(String pName, String pDesc, double price, Connection connect) throws SQLException{
-		String query = "INSERT INTO Products(pName, pDesc, price, seller) " + "Values(?,?,?,?)"; // the last ? will be a this.username
-		try (PreparedStatement statement = connect.prepareStatement(query)) {
-			statement.setString(1, pName);
-			statement.setString(2, pDesc);
-			statement.setDouble(3, price);
-			statement.setString(4, this.username);
+	public boolean addProduct(Connection connect) throws SQLException{
+		ArrayList<Product> newItem = new ArrayList<>();
+		try (Scanner in = new Scanner(System.in)) {
+			int option = 0;
+			
+			while(option!=-1){
+				System.out.println("Enter Product Name: ");
+				String pName = in.nextLine();
+				System.out.println("Enter Product Description: ");
+				String pDesc = in.nextLine();
+				System.out.println("Enter Product Price : ");
+				double price = in.nextDouble();
+				in.nextLine();
 
-			int updatedRows = statement.executeUpdate();
-			return updatedRows > 0;
+				newItem.add(new Product(pName, pDesc, price));
+				
+				System.out.println("Enter -1 to stop. Any other number to enter a new student.");
+				option = in.nextInt();
+				// in.nextLine();
+				
+			}in.nextLine();
+		}
+		String query = "INSERT INTO Products(pName, pDesc, price, seller) " + "Values(?,?,?,?)"; // the last ? will be a this.username
+		
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			for(int i =0; i<newItem.size();i++){
+				statement.setString(1, newItem.get(i).getPname());
+				statement.setString(2, newItem.get(i).getDesc());
+				statement.setDouble(3, newItem.get(i).getPrice());
+				statement.setString(4, this.username);
+	
+				statement.executeUpdate();
+			}
+			
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
