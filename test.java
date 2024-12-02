@@ -14,6 +14,17 @@ public class test {
 			e.printStackTrace();
 		}
 
+		try (Connection connection = DatabaseConnection.getCon()){
+			if (user.addProduct("pompus cactus", "This cactus is flamboyant and gay", 29.99, connection)){
+				System.out.println("saved");
+			}else{
+				System.err.println("fail");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+
+
 
 
 
