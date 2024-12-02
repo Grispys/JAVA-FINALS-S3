@@ -46,7 +46,16 @@ public class Seller extends Users {
 	public boolean deleteProduct(String productName, Connection connect){
 		String query = "DELETE FROM Products WHERE productName=? AND username=?";//username=? will be set as this.username later
 
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			statement.setString(1, productName);
+			statement.setString(2, this.username);
 
+			int updatedRows = statement.executeUpdate();
+			return updatedRows > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean viewProducts(Connection connect){
