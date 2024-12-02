@@ -1,7 +1,6 @@
 // contributors - matthew verge (base), joshua youden (added onto base)
 
 import java.sql.*;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class Seller extends Users {
 
@@ -89,7 +88,7 @@ public class Seller extends Users {
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 		
 			statement.setString(1, this.username);
-			statement.setString(2, BCrypt.hashpw(this.password, BCrypt.gensalt()));
+			statement.setString(2, this.password);
 			statement.setString(3, this.email);
 			statement.setString(4, this.role);
 	
