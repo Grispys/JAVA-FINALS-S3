@@ -60,7 +60,26 @@ public class Seller extends Users {
 
 	public boolean viewProducts(Connection connect){
 		String query = "SELECT * FROM Products WHERE username=?";
-
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			statement.setString(1, this.username);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				boolean results = false;
+				while (resultSet.next()) {
+					results = true;
+					System.out.println("Product Name: " + resultSet.getString("pName"));
+					System.out.println("Description: " + resultSet.getString("pDesc"));
+					System.out.println("Price: " + resultSet.getDouble("price"));
+				}
+				if (!results) {
+					System.out.println("No products found.");
+				}
+				return results;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 
