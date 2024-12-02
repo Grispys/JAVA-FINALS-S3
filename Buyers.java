@@ -1,6 +1,7 @@
-// contributors - matthew verge
+// contributors - matthew verge (base), joshua youden (added onto base)
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Buyers extends Users{
@@ -10,7 +11,24 @@ public class Buyers extends Users{
 	}
 
 	public boolean viewProducts(Connection connect){
-		String query = "INSERT INTO Users(username, password, email, role) VALUES (?,?,?,?)";
+		String query = "SELECT * FROM Products WHERE username=?";
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			statement.setString(1, this.username);
+			
+			try (ResultSet resultSet = statement.executeQuery()) {
+				boolean results = false;
+				while (resultSet.next()) {
+					results = true;
+					System.out.println("Product Name: " + resultSet.getString("pName"));
+					System.out.println("Description: " + resultSet.getString("pDesc"));
+					System.out.println("Price: " + resultSet.getDouble("price"));
+				}
+				return results;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean searchProducts(String pName, Connection connect){
