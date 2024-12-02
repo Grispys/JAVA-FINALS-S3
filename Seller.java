@@ -1,7 +1,7 @@
 // contributors - matthew verge (base), joshua youden (added onto base)
 
 import java.sql.*;
-
+import org.mindrot.jbcrypt.BCrypt;
 
 public class Seller extends Users {
 
@@ -81,15 +81,26 @@ public class Seller extends Users {
 			return false;
 		}
 	}
-	
-
-
 
 	@Override
 	public boolean saveUser(Connection connect) throws SQLException {
 		String query = "INSERT INTO Users(username, password, email, role) VALUES (?,?,?,?)";
 
-
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+		
+			statement.setString(1, this.username);
+			statement.setString(2, BCrypt.hashpw(this.password, BCrypt.gensalt()));
+			statement.setString(3, this.email);
+			statement.setString(4, this.role);
+	
+			
+			int updatedRows = statement.executeUpdate();
+			return updatedRows > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+			
 	}
 	
 }
