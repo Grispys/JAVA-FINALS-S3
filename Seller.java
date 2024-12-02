@@ -1,10 +1,12 @@
+// contributors - matthew verge
+
 import java.sql.*;
 public class Seller extends Users {
 
 	public Seller(String username, String email, String password, String role){
 		super(username, password, email, role);
 	}
-
+	// inserts parameters into 
 	public boolean addProduct(String pName, String pDesc, double price, Connection connect) throws SQLException{
 		String query = "INSERT INTO Products(pName, pDesc, price, seller) " + "Values(?,?,?,?)"; // the last ? will be a this.username
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
