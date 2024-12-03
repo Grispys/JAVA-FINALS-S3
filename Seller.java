@@ -12,6 +12,7 @@ public class Seller extends Users {
 	// inserts parameters into 
 	public boolean addProduct(Connection connect) throws SQLException{
 		ArrayList<Product> newItem = new ArrayList<>();
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		try {
 			int option = 0;

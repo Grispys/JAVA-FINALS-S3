@@ -1,3 +1,5 @@
+// contributors - Matthew verge
+
 import org.mindrot.jbcrypt.BCrypt;
 import java.sql.*;
 public abstract class Users {

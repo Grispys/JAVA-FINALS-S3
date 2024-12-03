@@ -1,4 +1,6 @@
-// contributors - matthew verge
+// contributors - matthew verge ( full file) ADMIN IS NOW COMPLETE!!!!!!!!!!!!!!!!!!
+// IT HAS: its constructor, a method to view every user in database, a method to delete one of them based on username
+// and a method to view every product in the database, its information, and it's seller. done!
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,6 +48,7 @@ public class Admin extends Users{
 	}
 
 	public boolean deleteUser(Connection connect)throws SQLException{
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		try {
 			int option = 0;
@@ -77,10 +80,34 @@ public class Admin extends Users{
 		
 	}
 
-	public boolean viewAllProducts(Connection connect){
-		// should show not only all products, but also their attached seller
+	public boolean viewAllProducts(Connection connect) throws SQLException {
 		String query = "SELECT * from Products";
+		
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			ResultSet rs = statement.executeQuery();
+			
+			System.out.println("List of all Products: ");
+			
+			while (rs.next()) {
+				String pname = rs.getString("pname");
+				String pdesc = rs.getString("pdesc");
+				double price = rs.getDouble("price");
+				String seller = rs.getString("seller");  
+	
+				
+				System.out.println("Product Name: " + pname);
+				System.out.println("Description: " + pdesc);
+				System.out.println("Price: " + price);
+				System.out.println("Seller: " + seller);  
+				System.out.println();  
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
+	
 
 
 
