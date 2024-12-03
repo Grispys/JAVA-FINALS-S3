@@ -24,7 +24,33 @@ public class UserService extends Users {
         }
     }
 
-    public String authenticateUser(Connection connect) throws SQLException {}
+    public String authenticateUser(Connection connect) throws SQLException {
+        String query = "SELECT psssword, role FROM Users WHERE username = ?";
+
+        try (PreparedStatement statement = connect.prepareStatement(query)) {
+            statement.setString(1, this.username);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    String storedPassword = resultSet.getString("password");
+                    String role = resultSet.getString("role");
+
+                    if (BCrypt.checkpw(this.password, storedPassword)) {
+                        System.out.println("Login successful! Role: " + role);
+                        return role;
+                    } else {
+                        System.out.println("Invalid password.");
+                    }
+                } else {
+                    System.out.println("User not found.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
     
     public static Users menu(String username, String email, String password, String role) {
         switch (role) {
