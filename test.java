@@ -11,7 +11,7 @@ public class test {
 		Admin user4 = new Admin("Admin", "taeasde@gmail.com", "null", "seller");
 		// testing that creating users and adding them to the database works
 		try (Connection connection = DatabaseConnection.getCon()){
-			if (user.saveUser(connection)){
+			if (user3.saveUser(connection)){
 				System.out.println("saved");
 			}else{
 				System.err.println("fail");
@@ -41,6 +41,18 @@ public class test {
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
+
+
+		try (Connection connection = DatabaseConnection.getCon()){
+			if (user4.deleteUser(connection)){
+				System.out.println("user deleted");
+			}else{
+				System.err.println("fail");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+
 
 
 

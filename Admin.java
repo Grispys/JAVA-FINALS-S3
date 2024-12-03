@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Admin extends Users{
 
@@ -44,8 +45,36 @@ public class Admin extends Users{
 		return true;
 	}
 
-	public boolean deleteUser(String username, Connection connect){
-		String query = "DELETE FROM Users WHERE username=?";
+	public boolean deleteUser(Connection connect)throws SQLException{
+		Scanner in = new Scanner(System.in);
+		try {
+			int option = 0;
+
+			while (option!=-1){
+				System.out.println("Enter the User Name to delete: ");
+				String user = in.nextLine();
+
+
+
+				String query = "DELETE FROM Users WHERE username=?";
+				try(PreparedStatement statement = connect.prepareStatement(query)){
+					statement.setString(1, user);
+					statement.executeUpdate();
+					
+				}catch(SQLException e){
+					e.printStackTrace();
+					return false;
+				}
+
+				System.out.println("Enter -1 to stop. Any other number to enter a new product.");;
+				option = in.nextInt();
+				in.nextLine();
+			}
+		}finally{
+
+		}
+		return true;
+		
 	}
 
 	public boolean viewAllProducts(Connection connect){

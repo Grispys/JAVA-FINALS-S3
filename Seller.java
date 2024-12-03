@@ -12,7 +12,8 @@ public class Seller extends Users {
 	// inserts parameters into 
 	public boolean addProduct(Connection connect) throws SQLException{
 		ArrayList<Product> newItem = new ArrayList<>();
-		try (Scanner in = new Scanner(System.in)) {
+		Scanner in = new Scanner(System.in);
+		try {
 			int option = 0;
 			
 			while(option!=-1){
@@ -31,6 +32,8 @@ public class Seller extends Users {
 				// in.nextLine();
 				
 			}in.nextLine();
+		}finally{
+			
 		}
 		String query = "INSERT INTO Products(pName, pDesc, price, seller) " + "Values(?,?,?,?)"; // the last ? will be a this.username
 		
