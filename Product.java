@@ -21,7 +21,7 @@ public class Product {
 		return this.pDesc;
 	}
 	
-	public void setAge(double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	

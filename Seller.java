@@ -12,7 +12,9 @@ public class Seller extends Users {
 	// inserts parameters into 
 	public boolean addProduct(Connection connect) throws SQLException{
 		ArrayList<Product> newItem = new ArrayList<>();
-		try (Scanner in = new Scanner(System.in)) {
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		try {
 			int option = 0;
 			
 			while(option!=-1){
@@ -26,11 +28,13 @@ public class Seller extends Users {
 
 				newItem.add(new Product(pName, pDesc, price));
 				
-				System.out.println("Enter -1 to stop. Any other number to enter a new student.");
+				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
 				option = in.nextInt();
 				// in.nextLine();
 				
 			}in.nextLine();
+		}finally{
+			
 		}
 		String query = "INSERT INTO Products(pName, pDesc, price, seller) " + "Values(?,?,?,?)"; // the last ? will be a this.username
 		
