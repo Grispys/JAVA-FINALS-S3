@@ -77,7 +77,7 @@ public class Admin extends Users{
 		
 	}
 
-	public boolean viewAllProducts(Connection connect){
+	public boolean viewAllProducts(Connection connect) throws SQLException {
 		// should show not only all products, but also their attached seller
 		String query = "SELECT * from Products";
 	}
