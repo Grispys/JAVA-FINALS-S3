@@ -9,7 +9,20 @@ public class test {
 		Seller user2 = new Seller("tost", "ta2qasaete@gmail.com", "null", "seller");
 		Buyers user3 = new Buyers("tist", "taet3tate@gmail.com", "null", "buyer");
 		Admin user4 = new Admin("Admin", "taeasde@gmail.com", "null", "seller");
+		// test that admin view products works
+		try (Connection connection = DatabaseConnection.getCon()){
+			if (user4.viewAllProducts(connection)){
+				System.out.println("viewed");
+			}else{
+				System.err.println("fail");
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		
 		// testing that creating users and adding them to the database works
+		
 		try (Connection connection = DatabaseConnection.getCon()){
 			if (user3.saveUser(connection)){
 				System.out.println("saved");
