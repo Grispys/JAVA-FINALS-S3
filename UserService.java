@@ -7,7 +7,22 @@ public class UserService extends Users {
         super(username, password, email, role);
     }
 
-    public boolean RegisterUser(Connection connect) throws SQLException {}
+    public boolean RegisterUser(Connection connect ,String username, String password, String email, String role) throws SQLException {
+        String query = "INSERT INTO Users(username, password, email, role) VALUES (?,?,?,?)";
+
+        try (PreparedStatement statement = connect.prepareStatement(query)) {
+            statement.setString(1, this.username);
+            statement.setString(2, this.password);
+            statement.setString(3, this.email);
+            statement.setString(4, this.role);
+
+            int insertRow = statement.executeUpdate();
+            return insertRow > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public String authenticateUser(Connection connect) throws SQLException {}
     
