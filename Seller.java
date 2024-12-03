@@ -26,7 +26,7 @@ public class Seller extends Users {
 
 				newItem.add(new Product(pName, pDesc, price));
 				
-				System.out.println("Enter -1 to stop. Any other number to enter a new student.");
+				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
 				option = in.nextInt();
 				// in.nextLine();
 				
