@@ -3,7 +3,7 @@ import java.sql.*;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService extends Users {
-    public Service(String username, String password, String email, String role) {
+    public UserService(String username, String password, String email, String role) {
         super(username, password, email, role);
     }
 
@@ -11,10 +11,10 @@ public class UserService extends Users {
         String query = "INSERT INTO Users(username, password, email, role) VALUES (?,?,?,?)";
 
         try (PreparedStatement statement = connect.prepareStatement(query)) {
-            statement.setString(1, this.username);
-            statement.setString(2, this.password);
-            statement.setString(3, this.email);
-            statement.setString(4, this.role);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setString(3, email);
+            statement.setString(4, role);
 
             int insertRow = statement.executeUpdate();
             return insertRow > 0;
@@ -25,17 +25,17 @@ public class UserService extends Users {
     }
 
     public String authenticateUser(Connection connect) throws SQLException {
-        String query = "SELECT psssword, role FROM Users WHERE username = ?";
+        String query = "SELECT password, role FROM Users WHERE username = ?";
 
         try (PreparedStatement statement = connect.prepareStatement(query)) {
-            statement.setString(1, this.username);
+            statement.setString(1, username);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     String storedPassword = resultSet.getString("password");
                     String role = resultSet.getString("role");
 
-                    if (BCrypt.checkpw(this.password, storedPassword)) {
+                    if (BCrypt.checkpw(password, storedPassword)) {
                         System.out.println("Login successful! Role: " + role);
                         return role;
                     } else {
@@ -51,17 +51,26 @@ public class UserService extends Users {
 
         return null;
     }
-    
-    public static Users menu(String username, String email, String password, String role) {
-        switch (role) {
-            case "buyer":
-                return System.out.println();
-            case "seller":
-                return System.out.println();
-            case "admin":
-                return System.out.println();
-            default:
-                return null;
-        }
-    }
+
+    @Override
+	public boolean saveUser(Connection connect) throws SQLException {
+		String query = "INSERT INTO Users(username, password, email, role) VALUES (?,?,?,?)";
+
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+		
+			statement.setString(1, this.username);
+			statement.setString(2, this.password);
+			statement.setString(3, this.email);
+			statement.setString(4, this.role);
+	
+			
+			int updatedRows = statement.executeUpdate();
+			return updatedRows > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+			
+	}
+
 }
