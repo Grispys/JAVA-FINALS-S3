@@ -152,27 +152,27 @@ public class Seller extends Users {
 	}
 
 	public boolean viewProducts(Connection connect){
-		ArrayList<Product> allItems = new ArrayList<>();
-		@SuppressWarnings("resource")
-		Scanner in = new Scanner(System.in);
-		try {
-			int option = 0;
+		// ArrayList<Product> allItems = new ArrayList<>();
+		// @SuppressWarnings("resource")
+		// Scanner in = new Scanner(System.in);
+		// try {
+		// 	int option = 0;
 			
-			while(option!=-1){
-				System.out.println("Enter User Name: ");
-				this.username = in.nextLine();
-				in.nextLine();
+		// 	while(option!=-1){
+		// 		System.out.println("Enter User Name: ");
+		// 		this.username = in.nextLine();																	techincally not needed where this.username is the only
+		// 		in.nextLine();																					sell list we display here. sorry joshua, my bad!
 				
-				allItems.contains(this.username);
+		// 		allItems.contains(this.username);
 				
-				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
-				option = in.nextInt();
-				in.nextLine();
-			}
-		}finally{
+		// 		System.out.println("Enter -1 to stop. Any other number to enter a new product.");
+		// 		option = in.nextInt();
+		// 		in.nextLine();
+		// 	}
+		// }finally{
 			
-		}
-		String query = "SELECT * FROM Products WHERE username=?";
+		// }
+		String query = "SELECT * FROM Products WHERE seller=?";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, this.username);
 			
@@ -180,9 +180,11 @@ public class Seller extends Users {
 				boolean results = false;
 				while (resultSet.next()) {
 					results = true;
+					System.out.println();
 					System.out.println("Product Name: " + resultSet.getString("pName"));
 					System.out.println("Description: " + resultSet.getString("pDesc"));
 					System.out.println("Price: " + resultSet.getDouble("price"));
+					System.out.println();
 				}
 				if (!results) {
 					System.out.println("No products found.");
