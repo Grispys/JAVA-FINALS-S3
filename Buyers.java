@@ -1,4 +1,5 @@
 // contributors - matthew verge (base), joshua youden (added onto base)
+//
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,7 @@ import java.sql.SQLException;
 public class Buyers extends Users{
 
 	public Buyers(String username, String email, String password, String role){
-		super(username, password, email, role);
+		super(username, password, email, role, true);
 	}
 
 	public boolean viewProducts(Connection connect){
