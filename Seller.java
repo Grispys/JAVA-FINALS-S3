@@ -1,5 +1,5 @@
 // contributors - matthew verge (base), joshua youden (added onto base)
-
+//  had to update the other methods to use the command line - matthew
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -7,9 +7,9 @@ import java.util.Scanner;
 public class Seller extends Users {
 
 	public Seller(String username, String email, String password, String role){
-		super(username, password, email, role);
+		super(username, password, email, role, true);
 	}
-	// inserts parameters into 
+	// inserts parameters into - matthew
 	public boolean addProduct(Connection connect) throws SQLException{
 		ArrayList<Product> newItem = new ArrayList<>();
 		@SuppressWarnings("resource")
@@ -55,23 +55,66 @@ public class Seller extends Users {
 		}
 	}	
 
-	public boolean updateProduct(String pChanging, String pName, String pDesc, int price, Connection connect){
-		String query = "UPDATE Products SET pName=?, pDesc=?, price=? WHERE pName =? AND username =?"; //this ones a little weird. needs new name, desc and price, but also the current name
-		try (PreparedStatement statement = connect.prepareStatement(query)) {						   //and the username to look for
-			statement.setString(1, pName);
-			statement.setString(2, pDesc);
-			statement.setInt(3, price);
-			statement.setString(4, pChanging);
-			statement.setString(5, this.username);
 
-			int updatedRows = statement.executeUpdate();
-			return updatedRows > 0;
+
+
+
+
+	public boolean updateProduct(Connection connect){
+		ArrayList<Product> updatedItem = new ArrayList<>();
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		try {
+			int option = 0;
+			
+			while(option!=-1){
+				System.out.println("Enter Product to be updated: ");
+				String pChanging = in.nextLine();
+				System.out.println("Enter New Product Name: ");
+				String pName = in.nextLine();
+				System.out.println("Enter New Product Description: ");
+				String pDesc = in.nextLine();
+				System.out.println("Enter New Product Price : ");
+				double price = in.nextDouble();
+				in.nextLine();
+
+				updatedItem.add(new Product(pName, pDesc, price, pChanging));
+				
+				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
+				option = in.nextInt();
+				// in.nextLine();
+				
+			}in.nextLine();
+		}finally{
+			
+		}
+		
+		String query = "UPDATE Products SET pName=?, pDesc=?, price=? WHERE pName =? AND seller =?"; //this ones a little weird. needs new name, desc and price, but also the current name
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			for(int i=0; i<updatedItem.size();i++){
+				statement.setString(1, updatedItem.get(i).getPname());
+				statement.setString(2, updatedItem.get(i).getDesc());
+				statement.setDouble(3, updatedItem.get(i).getPrice());
+				statement.setString(4, updatedItem.get(i).getPchanging());
+				statement.setString(5, this.username);
+			
+				statement.executeUpdate();
+			}						   
+		
+			
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}																									  
 
 	}
+
+
+
+
+
+
 
 	public boolean deleteProduct(String productName, Connection connect){
 		String query = "DELETE FROM Products WHERE productName=? AND username=?";//username=? will be set as this.username later

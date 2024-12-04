@@ -59,14 +59,16 @@ public class ECommerceApp {
 
         Users newUser;
         switch (role) {
+            // i found the problem - the construcotr is username, email, password, role. initally it was username, PASSWORD, EMAIL, role. so the email was getting hashed and put into the wrong slot
+            // it's fixed now! -matthew
             case "buyer":
-                newUser = new Buyers(username, password, email, role);
+                newUser = new Buyers(username, email, password, role);
                 break;
             case "seller":
-                newUser = new Seller(username, password, email, role);
+                newUser = new Seller(username, email, password, role);
                 break;
             case "admin":
-                newUser = new Admin(username, password, email, role);
+                newUser = new Admin(username, email, password, role);
                 break;
             default:
                 System.out.println("Invalid role. Registration failed.");
@@ -162,7 +164,7 @@ public class ECommerceApp {
                     seller.addProduct(connection);
                     break;
                 case 2:
-                    seller.updateProduct(username, username, username, choice, connection);
+                    seller.updateProduct(connection);
                     break;
                 case 3:
                     seller.deleteProduct(username, connection);

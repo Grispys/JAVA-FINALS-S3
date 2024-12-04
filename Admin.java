@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class Admin extends Users{
 
 	public Admin(String username, String email, String password, String role){
-		super(username, password, email, role);
+		super(username, password, email, role, true);
 	}
 
 	public boolean viewUsers(Connection connect)throws SQLException{

@@ -1,8 +1,10 @@
-// Abdul Reeves 
+// Abdul Reeves - Matthew (added overloaded constructor)
 public class Product {
 	private String pName;
 	private String pDesc;
 	private double price;
+	@SuppressWarnings("unused")
+	private String pChanging;
 
 
 	Product(String pName, String pDesc, double price){
@@ -10,6 +12,15 @@ public class Product {
 		this.pDesc = pDesc;
 		this.price = price;
 	}
+
+	Product(String pName, String pDesc, double price, String pChanging){
+		this.pName = pName;
+		this.pDesc = pDesc;
+		this.price = price;
+		this.pChanging = pChanging;
+	}
+
+
 	public String getPname() {
 		return pName;
 	}
@@ -32,5 +43,9 @@ public class Product {
 	
 	public void setPdesc(String pDesc) {
 		this.pDesc = pDesc;
+	}
+
+	public String getPchanging(){
+		return this.pChanging;
 	}
 }
