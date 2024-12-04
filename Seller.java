@@ -74,6 +74,26 @@ public class Seller extends Users {
 	}
 
 	public boolean deleteProduct(String productName, Connection connect){
+		ArrayList<Product> deleatedItem = new ArrayList<>();
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		try {
+			int option = 0;
+			
+			while(option!=-1){
+				System.out.println("Enter Product Name: ");
+				String pName = in.nextLine();
+				in.nextLine();
+				
+				deleatedItem.remove(pName);
+				
+				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
+				option = in.nextInt();
+				in.nextLine();
+			}
+		}finally{
+			
+		}
 		String query = "DELETE FROM Products WHERE productName=? AND username=?";//username=? will be set as this.username later
 
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
@@ -89,6 +109,26 @@ public class Seller extends Users {
 	}
 
 	public boolean viewProducts(Connection connect){
+		ArrayList<Product> allItems = new ArrayList<>();
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		try {
+			int option = 0;
+			
+			while(option!=-1){
+				System.out.println("Enter User Name: ");
+				this.username = in.nextLine();
+				in.nextLine();
+				
+				allItems.contains(this.username);
+				
+				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
+				option = in.nextInt();
+				in.nextLine();
+			}
+		}finally{
+			
+		}
 		String query = "SELECT * FROM Products WHERE username=?";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, this.username);
