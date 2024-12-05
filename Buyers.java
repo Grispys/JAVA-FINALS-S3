@@ -13,7 +13,7 @@ public class Buyers extends Users{
 	}
 
 	public boolean viewProducts(Connection connect){
-		String query = "SELECT * FROM Products WHERE username=?";
+		String query = "SELECT * FROM Products WHERE seller=?";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, this.username);
 			
