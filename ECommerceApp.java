@@ -167,7 +167,7 @@ public class ECommerceApp {
                     seller.updateProduct(connection);
                     break;
                 case 3:
-                    seller.deleteProduct(username, connection);
+                    seller.deleteProduct(connection);
                     break;
                 case 4:
                     seller.viewProducts(connection);

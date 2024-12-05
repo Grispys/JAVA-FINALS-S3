@@ -116,8 +116,9 @@ public class Seller extends Users {
 
 
 
-	public boolean deleteProduct(String productName, Connection connect){
-		ArrayList<Product> deleatedItem = new ArrayList<>();
+
+	public boolean deleteProduct(Connection connect){
+		ArrayList<Product> deletedItem = new ArrayList<>();
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		try {
@@ -126,9 +127,11 @@ public class Seller extends Users {
 			while(option!=-1){
 				System.out.println("Enter Product Name: ");
 				String pName = in.nextLine();
+				String pDesc = null;                   //this null string are here just so that the constructor can be used
+				Double price = 0.0;				   // doubles can't be null because java has an aneurysm otherwise so its set to 0
 				in.nextLine();
 				
-				deleatedItem.remove(pName);
+				deletedItem.add(new Product(pName, pDesc, price));
 				
 				System.out.println("Enter -1 to stop. Any other number to enter a new product.");
 				option = in.nextInt();
@@ -137,14 +140,20 @@ public class Seller extends Users {
 		}finally{
 			
 		}
-		String query = "DELETE FROM Products WHERE productName=? AND username=?";//username=? will be set as this.username later
+		String query = "DELETE FROM Products WHERE pname=? AND seller=?";//username=? will be set as this.username later
 
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
-			statement.setString(1, productName);
-			statement.setString(2, this.username);
+			for(int i=0; i<deletedItem.size();i++){
+				statement.setString(1, deletedItem.get(i).getPname());
+				statement.setString(2, this.username);
+	
+				statement.executeUpdate();
+				
+			}
+			return true;
 
-			int updatedRows = statement.executeUpdate();
-			return updatedRows > 0;
+			
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;

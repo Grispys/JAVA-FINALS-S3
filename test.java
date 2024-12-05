@@ -1,4 +1,5 @@
 // contributors - matthew verge
+// this file was just used to test the buyer/seller/admin methods. Not relevant to the rest of the app
 
 import java.sql.Connection;
 import java.sql.*;
