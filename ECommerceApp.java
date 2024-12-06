@@ -128,13 +128,13 @@ public class ECommerceApp {
 
             switch (choice) {
                 case 1:
-                    buyers.searchProductsbySeller(connection);
+                    buyers.viewAllProducts(connection);
                     break;
                 case 2:
                     buyers.searchProductsbyName(connection);
                     break;
                 case 3:
-                    buyers.productInfo(connection);
+                    buyers.searchProductsbySeller(connection);
                     break;
                 case 4:
                     System.out.println("Logging out...");

@@ -42,7 +42,8 @@ public class Buyers extends Users{
      */
     public boolean searchProductsbySeller(Connection connect) {
         String query = "SELECT * FROM Products WHERE seller=?";
-        try (Scanner scanner = new Scanner(System.in)) { 
+        Scanner scanner = new Scanner(System.in);
+        try { 
             System.out.print("Enter the seller's username to view their products: ");
             String sellerQuery = scanner.nextLine().trim();
 
@@ -164,39 +165,33 @@ public class Buyers extends Users{
 	 /**
      * Get detailed information for a specific product using command-line input.
      */
-    public boolean productInfo(Connection connect) {
-        String query = "SELECT * FROM Products WHERE pName=?";
-        @SuppressWarnings("resource")
-        Scanner scanner = new Scanner(System.in);
-        try {
-            System.out.print("Enter the product name to view details: ");
-            String productName = scanner.nextLine().trim();
-
-            try (PreparedStatement statement = connect.prepareStatement(query)) {
-                statement.setString(1, productName);
-
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    boolean found = false;
-                    System.out.println("------ Product Information ------");
-                    while (resultSet.next()) {
-                        found = true;
-                        System.out.println("Product Name: " + resultSet.getString("pName"));
-                        System.out.println("Description: " + resultSet.getString("pDesc"));
-                        System.out.printf("Price: $%.2f%n", resultSet.getDouble("price"));
-                        System.out.println("Seller: " + resultSet.getString("seller"));
-                        System.out.println("--------------------------------------");
-                    }
-                    if (!found) {
-                        System.out.println("Product not found.");
-                    }
-                    return found;
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Error while fetching product information: " + e.getMessage());
-            return false;
-        }
-    }
+    public boolean viewAllProducts(Connection connect) throws SQLException {
+		String query = "SELECT * from Products";
+		
+		try (PreparedStatement statement = connect.prepareStatement(query)) {
+			ResultSet rs = statement.executeQuery();
+			
+			System.out.println("List of all Products: ");
+			
+			while (rs.next()) {
+				String pname = rs.getString("pname");
+				String pdesc = rs.getString("pdesc");
+				double price = rs.getDouble("price");
+				String seller = rs.getString("seller");  
+	
+				
+				System.out.println("Product Name: " + pname);
+				System.out.println("Description: " + pdesc);
+                System.out.printf("Price: $%.2f%n", price);
+				System.out.println("Seller: " + seller);  
+				System.out.println();  
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 
 
 	@Override
