@@ -42,6 +42,7 @@ public class Buyers extends Users{
      */
     public boolean searchProductsbySeller(Connection connect) {
         String query = "SELECT * FROM Products WHERE seller=?";
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         try { 
             System.out.print("Enter the seller's username to view their products: ");

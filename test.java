@@ -7,7 +7,7 @@ import java.sql.*;
 public class test {
 	public static void main(String[] args) throws SQLException {
 		Seller user = new Seller("test", "taete@gmail.com", "null", "seller");
-		Seller user2 = new Seller("tost", "ta2qasaete@gmail.com", "null", "seller");
+		// Seller user2 = new Seller("tost", "ta2qasaete@gmail.com", "null", "seller");
 		Buyers user3 = new Buyers("tist", "taet3tate@gmail.com", "null", "buyer");
 		Admin user4 = new Admin("Admin", "taeasde@gmail.com", "null", "seller");
 		// test that admin view products works
