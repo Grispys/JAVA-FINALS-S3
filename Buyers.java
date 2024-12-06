@@ -1,4 +1,6 @@
-// contributors - matthew verge (base), joshua youden (added onto base)
+// contributors - matthew verge / joshua youden / abdul reeves
+
+// debugging by matthew
 //
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,12 +40,11 @@ public class Buyers extends Users{
 	 /**
      * View products by a specific seller using command-line input.
      */
-    public boolean viewProducts(Connection connect) {
-        String query = "SELECT * FROM Products WHERE seller LIKE ?";
-        try (Scanner scanner = new Scanner(System.in)) {
+    public boolean searchProductsbySeller(Connection connect) {
+        String query = "SELECT * FROM Products WHERE seller=?";
+        try (Scanner scanner = new Scanner(System.in)) { 
             System.out.print("Enter the seller's username to view their products: ");
             String sellerQuery = scanner.nextLine().trim();
-            sellerQuery = "%" + sellerQuery + "%"; // Wildcards for partial matches
 
             try (PreparedStatement statement = connect.prepareStatement(query)) {
                 statement.setString(1, sellerQuery);
@@ -100,12 +101,14 @@ public class Buyers extends Users{
 	/**
      * Search for products by name using command-line input.
      */
-    public boolean searchProducts(Connection connect) {
-        String query = "SELECT * FROM Products WHERE pName LIKE ?";
-        try (Scanner scanner = new Scanner(System.in)) {
+    public boolean searchProductsbyName(Connection connect) {
+        String query = "SELECT * FROM Products WHERE pName=?";
+        @SuppressWarnings("resource")
+        Scanner scanner = new Scanner(System.in); // had to move scanner from inside try to static - matthew
+        // i also changed the query from pname LIKE ? to pname=? because? i have no idea what LIKE does in queries. 
+        try{
             System.out.print("Enter the product name to search for: ");
             String searchQuery = scanner.nextLine().trim();
-            searchQuery = "%" + searchQuery + "%"; // Wildcards for partial matches
 
             try (PreparedStatement statement = connect.prepareStatement(query)) {
                 statement.setString(1, searchQuery);
@@ -162,8 +165,10 @@ public class Buyers extends Users{
      * Get detailed information for a specific product using command-line input.
      */
     public boolean productInfo(Connection connect) {
-        String query = "SELECT * FROM Products WHERE pName = ?";
-        try (Scanner scanner = new Scanner(System.in)) {
+        String query = "SELECT * FROM Products WHERE pName=?";
+        @SuppressWarnings("resource")
+        Scanner scanner = new Scanner(System.in);
+        try {
             System.out.print("Enter the product name to view details: ");
             String productName = scanner.nextLine().trim();
 

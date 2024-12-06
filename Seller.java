@@ -1,5 +1,6 @@
 // contributors - matthew verge (base), joshua youden (added onto base)
-//  had to update the other methods to use the command line - matthew
+//  had to update the addProduct and Update to use the command line - matthew
+// debugging by matthew
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -161,26 +162,6 @@ public class Seller extends Users {
 	}
 
 	public boolean viewProducts(Connection connect){
-		// ArrayList<Product> allItems = new ArrayList<>();
-		// @SuppressWarnings("resource")
-		// Scanner in = new Scanner(System.in);
-		// try {
-		// 	int option = 0;
-			
-		// 	while(option!=-1){
-		// 		System.out.println("Enter User Name: ");
-		// 		this.username = in.nextLine();																	techincally not needed where this.username is the only
-		// 		in.nextLine();																					sell list we display here. sorry joshua, my bad!
-				
-		// 		allItems.contains(this.username);
-				
-		// 		System.out.println("Enter -1 to stop. Any other number to enter a new product.");
-		// 		option = in.nextInt();
-		// 		in.nextLine();
-		// 	}
-		// }finally{
-			
-		// }
 		String query = "SELECT * FROM Products WHERE seller=?";
 		try (PreparedStatement statement = connect.prepareStatement(query)) {
 			statement.setString(1, this.username);

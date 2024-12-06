@@ -1,3 +1,6 @@
+// main app - joshua
+//debuggin - matthew
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -125,17 +128,13 @@ public class ECommerceApp {
 
             switch (choice) {
                 case 1:
-                    buyers.viewProducts(connection);
+                    buyers.searchProductsbySeller(connection);
                     break;
                 case 2:
-                    System.out.print("Enter Product Name: ");
-                    String pname = scanner.nextLine();
-                    buyers.searchProducts(username, connection);
+                    buyers.searchProductsbyName(connection);
                     break;
                 case 3:
-                    System.out.print("Prduct Infomation: ");
-                    String name= scanner.nextLine();
-                    buyers.productInfo(connection, name);
+                    buyers.productInfo(connection);
                     break;
                 case 4:
                     System.out.println("Logging out...");
