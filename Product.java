@@ -3,7 +3,6 @@ public class Product {
 	private String pName;
 	private String pDesc;
 	private double price;
-	@SuppressWarnings("unused")
 	private String pChanging;
 
 
